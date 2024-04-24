@@ -1,0 +1,16 @@
+local private = {}
+
+function awake()
+    restartBu = restartButton:GetComponent(typeof(CS.UnityEngine.UI.Button))
+    restartBu.onClick:AddListener(restartButtonOnClick)
+    endBu = endButton:GetComponent(typeof(CS.UnityEngine.UI.Button))
+    endBu.onClick:AddListener(endButtonOnClick)
+end
+
+function restartButtonOnClick()
+    CS.UnityEngine.SceneManagement.SceneManager.LoadScene("Level01")
+end
+
+function endButtonOnClick()
+    CS.UnityEngine.Application.Quit()
+end

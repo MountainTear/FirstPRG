@@ -1,0 +1,16 @@
+local private = {}
+
+function awake()
+    restartBu = restartButton:GetComponent(typeof(CS.UnityEngine.UI.Button))
+    restartBu.onClick:AddListener(restartButtonOnClick)
+    backBu = backButton:GetComponent(typeof(CS.UnityEngine.UI.Button))
+    backBu.onClick:AddListener(backButtonOnClick)
+end
+
+function restartButtonOnClick()
+    CS.UnityEngine.SceneManagement.SceneManager.LoadScene("Level01")
+end
+
+function backButtonOnClick()
+    CS.UnityEngine.SceneManagement.SceneManager.LoadScene("StartInterface")
+end
