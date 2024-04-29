@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//Íæ¼ÒÊı¾İÀà
+//ç©å®¶æ•°æ®ç±»
 public class PlayerData
 {
     public int healthMax = 10;
     public int fargmentMax = 3;
     public int health = 0;
     public int fragment = 0;
+    public int sex = 0;
 }
 
 /// <summary>
-/// ¹ÜÀíÍæ¼ÒÓÎÏ·Êı¾İ
+/// ç®¡ç†ç©å®¶æ¸¸æˆæ•°æ®
 /// </summary>
 public class PlayerDataManager : MonoBehaviour
 {
@@ -21,32 +22,34 @@ public class PlayerDataManager : MonoBehaviour
     private UIGameInManager uIGameInManager;
     private PopViewManager popViewM;
 
-    //ÊÜÉËÉÁË¸
+    //å—ä¼¤é—ªçƒ
     private bool isInjured;
     private float injuredTimer;
     private SkinnedMeshRenderer m_renderer;
 
     private void Awake()
     {
-        //»ñÈ¡´æ´¢µÄÖ÷½ÇÊı¾İ
+        //è·å–å­˜å‚¨çš„ä¸»è§’æ•°æ®
         playerData.health  = PlayerPrefs.GetInt("Health", playerData.healthMax) % (playerData.healthMax + 1);
+        playerData.sex = PlayerPrefs.GetInt("Sex", 0);
         //playerData.fargment = PlayerPrefs.GetInt("Energy", playerData.fargmentMax) % (playerData.fargmentMax + 1);
-        //»ñÈ¡×é¼ş
+        //è·å–ç»„ä»¶
         uIGameInManager = GetComponent<UIGameInManager>();
         popViewM = GetComponent<PopViewManager>();
         m_renderer = GameObject.Find("Lin/skin").GetComponent<SkinnedMeshRenderer>();
     }
 
-    //±£´æÊı¾İ
+    //ä¿å­˜æ•°æ®
     public  void SavePlayerData()
     {
         PlayerPrefs.SetInt("Health", playerData.health);
+        PlayerPrefs.SetInt("Sex", playerData.sex);
         //PlayerPrefs.SetInt("Energy", playerData.fargment);
     }
 
     void Update()
     {
-        //ÅĞ¶¨ÊÜÉËÉÁË¸
+        //åˆ¤å®šå—ä¼¤é—ªçƒ
         if (isInjured)
         {
             injuredTimer += Time.deltaTime;
@@ -64,32 +67,32 @@ public class PlayerDataManager : MonoBehaviour
         }
     }
 
-    //ÊÜÉË
+    //å—ä¼¤
     public void Injured(int damage)
     {
         isInjured = true;
         if (playerData.health > damage)
         {
             playerData.health = playerData.health - damage;
-            //¸üĞÂUI
+            //æ›´æ–°UI
             uIGameInManager.UpdateUI();
         }
         else
         {
-            //´Ë´¦¿É²¥·ÅËÀÍö¶¯»­
+            //æ­¤å¤„å¯æ’­æ”¾æ­»äº¡åŠ¨ç”»
             SceneManager.LoadScene("EndInterface");
         }
     }
 
-    //»ñµÃÃÎ¾³ËéÆ¬
+    //è·å¾—æ¢¦å¢ƒç¢ç‰‡
     public void getFragment()
     {
         playerData.fragment = playerData.fragment + 1;
         uIGameInManager.UpdateUI();
-        popViewM.IntroducePopView("¹§Ï²»ñµÃÒ»¸öÃÎ¾³ËéÆ¬");
+        popViewM.IntroducePopView("æ­å–œè·å¾—ä¸€ä¸ªæ¢¦å¢ƒç¢ç‰‡");
     }
 
-    //»ñµÃÑªÆ¿
+    //è·å¾—è¡€ç“¶
     public void getHealthBottle(int addHealth)
     {
         playerData.health = playerData.health + addHealth;
@@ -98,6 +101,6 @@ public class PlayerDataManager : MonoBehaviour
             playerData.health = playerData.healthMax;
         }
         uIGameInManager.UpdateUI();
-        popViewM.IntroducePopView("¹§Ï²¼ÓÑª" + addHealth + "µÎ");
+        popViewM.IntroducePopView("æ­å–œåŠ è¡€" + addHealth + "æ»´");
     }
 }

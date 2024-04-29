@@ -23,7 +23,7 @@ public class CharacterController : MonoBehaviour
     private readonly float m_interpolation = 10;
 
     //向后移动速度
-    private readonly float m_backwardRunScale = 1f;
+    private readonly float m_backwardRunScale = 0f;
     private bool m_wasGrounded;
     private float m_jumpTimeStamp = 0;
     private float m_minJumpInterval = 0.25f;
@@ -39,16 +39,36 @@ public class CharacterController : MonoBehaviour
     //碰撞列表
     private List<Collider> m_collisions = new List<Collider>();
 
+    public GameObject man;
+    public GameObject women;
+    private PlayerDataManager playerDataManager;
+
     private void Awake()
     {
         //获取组件
-        m_animator = gameObject.GetComponent<Animator>();
         m_rigidBody = gameObject.GetComponent<Rigidbody>();
         popViewM = GameObject.Find("GameManager").GetComponent<PopViewManager>();
         audioManager = GameObject.Find("GameManager").GetComponent<AudioManager>();
 
         //记录初始位置
         initialPosition = transform.position;
+    }
+
+    private void Start()
+    {
+        playerDataManager = GameObject.Find("GameManager").GetComponent<PlayerDataManager>();
+        if (playerDataManager.playerData.sex == 0)
+        {
+            man.SetActive(true);
+            women.SetActive(false);
+            m_animator = man.GetComponent<Animator>();
+        }
+        else
+        {
+            man.SetActive(false);
+            women.SetActive(true);
+            m_animator = women.GetComponent<Animator>();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
