@@ -159,6 +159,7 @@ MonoBehaviour:
   m_jumpForce: 4
   man: {fileID: 6259371558729816437}
   women: {fileID: 1194228088288099697}
+  fly: {fileID: 4586264017064050289}
 --- !u!1 &4149103138457960308
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,3 +644,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coolTime: 1
+  characterController: {fileID: 722971724}
+--- !u!95 &4586264017064050289 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5988486098210018581, guid: d8cb8658819f03d4189f2ae35a5bac2a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7835927673312275300}
+  m_PrefabAsset: {fileID: 0}

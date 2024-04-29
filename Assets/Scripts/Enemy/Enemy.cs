@@ -5,81 +5,80 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 
 /// <summary>
-/// µĞÈË×´Ì¬
+/// æ•ŒäººçŠ¶æ€
 /// </summary>
 public enum EnemyStates {
     /// <summary>
-    /// Õ¾×®
+    /// ç«™æ¡©
     /// </summary>
     GUARD,  
     /// <summary>
-    /// Ñ²Âß
+    /// å·¡é€»
     /// </summary>
     PATROL,     
     /// <summary>
-    /// ×·»÷
+    /// è¿½å‡»
     /// </summary>
     CHASE,  
     /// <summary>
-    /// ËÀÍö
+    /// æ­»äº¡
     /// </summary>
     DEAD    
 }
 /// <summary>
-/// µĞÈË»ùÀà
+/// æ•ŒäººåŸºç±»
 /// </summary>
 /// 
-//×Ô¶¯Ìí¼ÓNavMeshAgent×é¼ş
+//è‡ªåŠ¨æ·»åŠ NavMeshAgentç»„ä»¶
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour
 {
-    //µĞÈË´úÀí
+    //æ•Œäººä»£ç†
     private NavMeshAgent agent;
-    //¶¯»­×é¼ş
-    private Animator anim;
-    //ÑªÌõ×é¼ş
+    //åŠ¨ç”»ç»„ä»¶
+    public Animator anim;
+    //è¡€æ¡ç»„ä»¶
     private Slider healthBar;
 
-    //Íæ¼ÒÏà¹Ø
+    //ç©å®¶ç›¸å…³
     private PlayerDataManager playerDataManager;
     protected GameObject attackTarget;
 
-    //µĞÈË×´Ì¬
+    //æ•ŒäººçŠ¶æ€
     private EnemyStates enemyStates;
 
-    //µĞÈË²ÎÊı
-    public int damage;    //ÉËº¦
+    //æ•Œäººå‚æ•°
+    public int damage;    //ä¼¤å®³
     public int maxHealth = 10;
     public int nowHealth = 10; 
-    public float sightRadius;   //ÊÓÒ°
-    public bool isGuard;    //ÊÇ·ñÕ¾×®
-    private float speed;    //¼ÇÂ¼µĞÈËÔ­ÓĞµÄËÙ¶È
-    public float lookAtTime; //ÔÚÔ­µØ¿´µÄÊ±¼ä
-    private float remainLookAtTime; //¼ÆÊ±Æ÷
+    public float sightRadius;   //è§†é‡
+    public bool isGuard;    //æ˜¯å¦ç«™æ¡©
+    private float speed;    //è®°å½•æ•ŒäººåŸæœ‰çš„é€Ÿåº¦
+    public float lookAtTime; //åœ¨åŸåœ°çœ‹çš„æ—¶é—´
+    private float remainLookAtTime; //è®¡æ—¶å™¨
 
-    //Õ¾×®¼°Ñ²Âß²ÎÊı
+    //ç«™æ¡©åŠå·¡é€»å‚æ•°
     private Vector3 guardPos;
     private Quaternion guardRotation;
 
-    //Ñ²ÂßÏà¹Ø
-    public float patrolRange;   //Ñ²Âß·¶Î§
-    private Vector3 wayPoint;   //Ñ²ÂßµÄËæ»úÒ»µã
+    //å·¡é€»ç›¸å…³
+    public float patrolRange;   //å·¡é€»èŒƒå›´
+    private Vector3 wayPoint;   //å·¡é€»çš„éšæœºä¸€ç‚¹
 
-    //boolÅäºÏ¶¯»­
+    //boolé…åˆåŠ¨ç”»
     bool isWalk;
     bool isChase;
     bool isFollow;
     bool isDead;
 
-    //Åö×²ÌùºÏ¿ÛÑª
+    //ç¢°æ’è´´åˆæ‰£è¡€
     public float stayDamageTime = 2f;
     private float stayTimer;
 
     void Awake()
     {
-        //»ñÈ¡×é¼ş
+        //è·å–ç»„ä»¶
         agent = GetComponent<NavMeshAgent>();
-        anim = GetComponent<Animator>();
         healthBar = transform.Find("Canvas/Slider").gameObject.GetComponent<Slider>();
         speed = agent.speed;
 
@@ -90,23 +89,23 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        //»ñÈ¡Êı¾İ¹ÜÀíÆ÷£¬ÍíÓÚÍæ¼ÒÊı¾İ³õÊ¼»¯
+        //è·å–æ•°æ®ç®¡ç†å™¨ï¼Œæ™šäºç©å®¶æ•°æ®åˆå§‹åŒ–
         playerDataManager = GameObject.Find("GameManager").GetComponent<PlayerDataManager>();
 
-        //Èç¹û¹´Ñ¡Õ¾×®
+        //å¦‚æœå‹¾é€‰ç«™æ¡©
         if (isGuard)
         {
             enemyStates = EnemyStates.GUARD;
         }
-        //·ñÔòÑ²Âß
+        //å¦åˆ™å·¡é€»
         else
         {
             enemyStates = EnemyStates.PATROL;
-            //»ñÈ¡¿ÉÑ²Âß·¶Î§ÄÚµÄµã
+            //è·å–å¯å·¡é€»èŒƒå›´å†…çš„ç‚¹
             GetNewWayPoint();
         }
 
-        //ÑªÌõ³õÊ¼»¯
+        //è¡€æ¡åˆå§‹åŒ–
         healthBar.minValue = 0;
         healthBar.maxValue = maxHealth;
     }
@@ -117,7 +116,7 @@ public class Enemy : MonoBehaviour
         SwitchAnimation();
     }
 
-    //Åö×²ÉËº¦
+    //ç¢°æ’ä¼¤å®³
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.GetComponent<CharacterController>())
@@ -138,10 +137,10 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-    //ÕÒµ½Íæ¼Ò
+    //æ‰¾åˆ°ç©å®¶
     bool FoundPlayer()
     {
-        //»ñÈ¡ÇòÌåÖÜÎ§µÄËùÓĞÅö×²Ìå
+        //è·å–çƒä½“å‘¨å›´çš„æ‰€æœ‰ç¢°æ’ä½“
         var colliders = Physics.OverlapSphere(transform.position, sightRadius);
 
         foreach (var target in colliders)
@@ -156,14 +155,14 @@ public class Enemy : MonoBehaviour
         return false;
     }
 
-    //ÇĞ»»×´Ì¬
+    //åˆ‡æ¢çŠ¶æ€
     void SwitchStates()
     {
         if (isDead)
         {
             enemyStates = EnemyStates.DEAD;
         }
-        //Èç¹û·¢ÏÖplayer ÇĞ»»µ½CHASE
+        //å¦‚æœå‘ç°player åˆ‡æ¢åˆ°CHASE
         else if (FoundPlayer())
         {
             agent.stoppingDistance = agent.radius;
@@ -174,7 +173,7 @@ public class Enemy : MonoBehaviour
             agent.stoppingDistance = agent.radius;
         }
 
-        //µĞÈË²»Í¬×´Ì¬×ö²»Í¬ÊÂ
+        //æ•Œäººä¸åŒçŠ¶æ€åšä¸åŒäº‹
         switch (enemyStates)
         {
             case EnemyStates.GUARD:
@@ -200,7 +199,7 @@ public class Enemy : MonoBehaviour
                     isChase = false;
                     agent.speed = speed * 0.5f;
 
-                    //ÅĞ¶ÏÊÇ·ñµ½ÁËËæ»úÑ²Âßµã
+                    //åˆ¤æ–­æ˜¯å¦åˆ°äº†éšæœºå·¡é€»ç‚¹
                     if (Vector3.Distance(wayPoint, transform.position) <= agent.stoppingDistance)
                     {
                         isWalk = false;
@@ -220,9 +219,9 @@ public class Enemy : MonoBehaviour
                 {
                     isWalk = false;
                     isChase = true;
-                    //×·»÷Ä£Ê½È«ËÙ
+                    //è¿½å‡»æ¨¡å¼å…¨é€Ÿ
                     agent.speed = speed;
-                    //×·»÷¹ı³ÌÖĞÎ´ÕÒµ½Íæ¼Ò
+                    //è¿½å‡»è¿‡ç¨‹ä¸­æœªæ‰¾åˆ°ç©å®¶
                     if (!FoundPlayer())
                     {
                         isFollow = false;
@@ -231,7 +230,7 @@ public class Enemy : MonoBehaviour
                             agent.destination = transform.position;
                             remainLookAtTime -= Time.deltaTime;
                         }
-                        //·µ»ØÉÏÒ»¸ö×´Ì¬
+                        //è¿”å›ä¸Šä¸€ä¸ªçŠ¶æ€
                         else if (isGuard)
                             enemyStates = EnemyStates.GUARD;
                         else
@@ -246,7 +245,7 @@ public class Enemy : MonoBehaviour
                 break;
             case EnemyStates.DEAD:
                 {
-                    //·ÀÖ¹ËÀÍöÒÆ¶¯£¬¹Ø±Õagent
+                    //é˜²æ­¢æ­»äº¡ç§»åŠ¨ï¼Œå…³é—­agent
                     agent.enabled = false;
                     agent.radius = 0;
                     anim.SetTrigger("Death");
@@ -257,7 +256,7 @@ public class Enemy : MonoBehaviour
 
     }
 
-    //ÇĞ»»¶¯»­
+    //åˆ‡æ¢åŠ¨ç”»
     void SwitchAnimation()
     {
         anim.SetBool("Walk", isWalk);
@@ -265,14 +264,14 @@ public class Enemy : MonoBehaviour
         anim.SetBool("Follow", isFollow);
     }
 
-    //»­³öÑ¡ÖĞ¹ÖÎïµÄÊÓÒ°·¶Î§
+    //ç”»å‡ºé€‰ä¸­æ€ªç‰©çš„è§†é‡èŒƒå›´
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, sightRadius);
     }
 
-    //»ñÈ¡Ñ²Âß·¶Î§ÄÚËæ»úÒ»µã
+    //è·å–å·¡é€»èŒƒå›´å†…éšæœºä¸€ç‚¹
     void GetNewWayPoint()
     {
         remainLookAtTime = lookAtTime;
@@ -286,7 +285,7 @@ public class Enemy : MonoBehaviour
         wayPoint = NavMesh.SamplePosition(randomPoint, out hit, patrolRange, 1) ? hit.position : transform.position;
     }
 
-    //±»Ôì³ÉÉËº¦
+    //è¢«é€ æˆä¼¤å®³
     public void TakeDamage(int damage)
     {
         nowHealth = nowHealth - damage;

@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Ğü¸¡°å
+/// æ‚¬æµ®æ¿
 /// </summary>
 public class FloatingPlate : MonoBehaviour
 {
-    //×é¼ş¼°ÒÆ¶¯Î»ÖÃ
+    //ç»„ä»¶åŠç§»åŠ¨ä½ç½®
     private Rigidbody rigibdody;
     private Transform upPositon;
     private Transform downPosition;
 
-    //ÒÆ¶¯ËÙ¶È¼°Ïà¹Ø²ÎÊı
+    //ç§»åŠ¨é€Ÿåº¦åŠç›¸å…³å‚æ•°
     [SerializeField]private float moveSpeed = 1f;
     private float deltaX, deltaY, deltaZ;
     private Vector3 oldPosition;
 
-    //×Ô¶¯Ïú»ÙÊ±¼ä
+    //è‡ªåŠ¨é”€æ¯æ—¶é—´
     public float existTime = 20f;
 
     private void Awake()
     {
-        rigibdody = transform.Find("Cookie").gameObject.GetComponent<Rigidbody>();
+        rigibdody = transform.Find("di tan").gameObject.GetComponent<Rigidbody>();
         upPositon = transform.Find("UpPosition").gameObject.GetComponent<Transform>();
         downPosition = transform.Find("DownPosition").gameObject.GetComponent<Transform>();
-        //¼ÆËãÆ«ÒÆ¾àÀë
+        //è®¡ç®—åç§»è·ç¦»
         deltaX = upPositon.position.x - downPosition.position.x;
         deltaY = upPositon.position.y - downPosition.position.y;
         deltaZ = upPositon.position.z - downPosition.position.z;
@@ -34,13 +34,13 @@ public class FloatingPlate : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //¹ıÆÚÏú»Ù
+        //è¿‡æœŸé”€æ¯
         existTime = existTime - Time.deltaTime;
         if (existTime < 0)
         {
             Destroy(this.gameObject);
         }
-        //ÉÏÏÂÒÆ¶¯
+        //ä¸Šä¸‹ç§»åŠ¨
         float temp = Mathf.Sin(Time.time * moveSpeed);
         rigibdody.position = oldPosition+  new Vector3(temp * deltaX,  temp * deltaY, temp * deltaZ);
     }

@@ -4,25 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// ÓÎÏ·UI¹ÜÀíÀà
+/// æ¸¸æˆUIç®¡ç†ç±»
 /// </summary>
 public class UIGameInManager: MonoBehaviour
 {
-    //ÑªÁ¿Ìõ¼°ÃÎ¾³ËéÆ¬Ìõ
+    //è¡€é‡æ¡åŠæ¢¦å¢ƒç¢ç‰‡æ¡
     private Text healthT;
     private Text fragmentT;
     private PlayerDataManager playerDataManager;
 
-    //±³°üÊ³Îï¼°¹¦ÄÜ½éÉÜ
+    //èƒŒåŒ…é£Ÿç‰©åŠåŠŸèƒ½ä»‹ç»
     private Text foodT;
     private Text powerT;
 
-    //Ğ¡µØÍ¼
+    //å°åœ°å›¾
     private GameObject map;
     private Button mapButton;
     private void Start()
     {
-        //»ñÈ¡×é¼ş     
+        //è·å–ç»„ä»¶     
         healthT = GameObject.Find("UIGameIn/Canvas/Content/Health").GetComponent<Text>();
         fragmentT = GameObject.Find("UIGameIn/Canvas/Content/Fragment").GetComponent<Text>();
         foodT = GameObject.Find("UIGameIn/Canvas/MagicFoodContent/FoodName").GetComponent<Text>();
@@ -30,16 +30,16 @@ public class UIGameInManager: MonoBehaviour
         mapButton = GameObject.Find("UIGameIn/Canvas/MapButton").GetComponent<Button>();
         map = GameObject.Find("UIGameIn/Canvas/Map");
         playerDataManager = GetComponent<PlayerDataManager>();
-        //UI³õÊ¼»¯
+        //UIåˆå§‹åŒ–
         healthT.text = playerDataManager.playerData.health + "/" + playerDataManager.playerData.healthMax;
         fragmentT.text = playerDataManager.playerData.fragment + "/" + playerDataManager.playerData.fargmentMax;
 
-        //°´Å¥ÏìÓ¦
+        //æŒ‰é’®å“åº”
         mapButton.onClick.AddListener( () => { map.SetActive(!map.activeSelf);  });
     }
 
     /// <summary>
-    /// UI¸üĞÂº¯Êı
+    /// UIæ›´æ–°å‡½æ•°
     /// </summary>
     public void UpdateUI()
     {
@@ -48,7 +48,7 @@ public class UIGameInManager: MonoBehaviour
     }
 
     /// <summary>
-    /// ¸üĞÂÊ³Îï
+    /// æ›´æ–°é£Ÿç‰©
     /// </summary>
     public void UpdateFood(FoodType foodStates)
     {
@@ -56,14 +56,14 @@ public class UIGameInManager: MonoBehaviour
         {
             case FoodType.APPLE:
                 {
-                    foodT.text = "Æ»¹û";
-                    powerT.text = "¹¥»÷";
+                    foodT.text = "æˆ˜æ–—";
+                    powerT.text = "æ”»å‡»";
                 }
                 break;
             case FoodType.COOKIE:
                 {
-                    foodT.text = "ÇúÆæ";
-                    powerT.text = "µØĞÎ";
+                    foodT.text = "åœ°æ¯¯";
+                    powerT.text = "åœ°å½¢";
                 }
                 break;
         }

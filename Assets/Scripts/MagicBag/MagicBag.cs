@@ -3,57 +3,59 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Ä§·¨±³°üÀïµÄÊ³ÎïÀàĞÍ
+/// é­”æ³•èƒŒåŒ…é‡Œçš„é£Ÿç‰©ç±»å‹
 /// </summary>
 public enum FoodType
 { 
     /// <summary>
-    /// ÇúÆæ£¬¶ÔÓ¦Ğü¸¡°å
+    /// æ›²å¥‡ï¼Œå¯¹åº”æ‚¬æµ®æ¿
     /// </summary>
     COOKIE,
     /// <summary>
-    /// Æ»¹û£¬¶ÔÓ¦×Óµ¯
+    /// è‹¹æœï¼Œå¯¹åº”å­å¼¹
     /// </summary>
     APPLE
 }
 
 /// <summary>
-/// Ä§Á¦Êé°ü
+/// é­”åŠ›ä¹¦åŒ…
 /// </summary>
 public class MagicBag : MonoBehaviour
 {
-    //Ä§·¨Ê³ÎïÔ¤¼ÓÔØ
+    //é­”æ³•é£Ÿç‰©é¢„åŠ è½½
     private GameObject cookie;
     private GameObject apple;
 
-    //Ê³ÎïÀà±ğ
+    //é£Ÿç‰©ç±»åˆ«
     private FoodType foodStates;
 
-    //Ê¹ÓÃÀäÈ´
+    //ä½¿ç”¨å†·å´
     public float coolTime = 1f;
     private float coolTimer = 0;
     private bool canUse = true;
 
-    //ÒôĞ§¹ÜÀí
+    //éŸ³æ•ˆç®¡ç†
     private AudioManager audioManager;
 
     //UI
     private UIGameInManager uIGameInManager;
+    public CharacterController characterController;
+
     void Awake()
     {
-        //Ô¤¼ÓÔØ
+        //é¢„åŠ è½½
         apple = (GameObject)Resources.Load("Prefabs/MagicFood/Bullet");
         cookie = (GameObject)Resources.Load("Prefabs/MagicFood/FloatingPlate");
         uIGameInManager = GameObject.Find("GameManager").GetComponent<UIGameInManager>();
         audioManager = GameObject.Find("GameManager").GetComponent<AudioManager>();
 
-        //Ä¬ÈÏÄ§·¨Ê³ÎïÎªÆ»¹û
+        //é»˜è®¤é­”æ³•é£Ÿç‰©ä¸ºè‹¹æœ
         foodStates = FoodType.COOKIE;
     }
 
     void Update()
     {
-        //ÀäÈ´
+        //å†·å´
         if(coolTimer > coolTime)
         {
             canUse = true;
@@ -63,11 +65,11 @@ public class MagicBag : MonoBehaviour
             coolTimer = coolTimer + Time.deltaTime;
         }
 
-        //ÇĞ»»Ä§·¨Ê³Îï
+        //åˆ‡æ¢é­”æ³•é£Ÿç‰©
         if (Input.GetButtonDown("Switch"))
         {
             audioManager.PlaySwitchFood();
-            //´Ë´¦ÔİÊ±Ëæenum¶ø¸ü¸Ä
+            //æ­¤å¤„æš‚æ—¶éšenumè€Œæ›´æ”¹
             if (foodStates == FoodType.APPLE)
             {
                 foodStates = FoodType.COOKIE;
@@ -76,10 +78,10 @@ public class MagicBag : MonoBehaviour
             {
                 foodStates = foodStates + 1;
             }
-            //¸ü¸ÄUIÃèÊö
+            //æ›´æ”¹UIæè¿°
             uIGameInManager.UpdateFood(foodStates);
         }
-        //Ê¹ÓÃÄ§·¨
+        //ä½¿ç”¨é­”æ³•
         if(Input.GetButtonDown("Magic")  && canUse)
         {
             audioManager.PlayMagic();
@@ -91,18 +93,19 @@ public class MagicBag : MonoBehaviour
     
     void SwitchStates()
     {
-        //·¢¶¯Ä§·¨
+        //å‘åŠ¨é­”æ³•
         switch (foodStates)
         {
 
             case FoodType.APPLE:
                 {
                     Instantiate(apple, transform.position + Vector3.up * 0.5f, Quaternion.identity);
+                    characterController.Attack();
                 }
                 break;
             case FoodType.COOKIE:
                 {
-                    Instantiate(cookie, transform.position + transform.forward * -1.5f , Quaternion.identity);
+                    Instantiate(cookie, transform.position + transform.forward * -3f , Quaternion.identity);
                 }
                 break;
         }

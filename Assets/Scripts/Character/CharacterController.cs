@@ -23,7 +23,7 @@ public class CharacterController : MonoBehaviour
     private readonly float m_interpolation = 10;
 
     //向后移动速度
-    private readonly float m_backwardRunScale = 0f;
+    private readonly float m_backwardRunScale = 1f;
     private bool m_wasGrounded;
     private float m_jumpTimeStamp = 0;
     private float m_minJumpInterval = 0.25f;
@@ -42,6 +42,7 @@ public class CharacterController : MonoBehaviour
     public GameObject man;
     public GameObject women;
     private PlayerDataManager playerDataManager;
+    public Animator fly;
 
     private void Awake()
     {
@@ -175,7 +176,7 @@ public class CharacterController : MonoBehaviour
         //向后移动
         if (v < 0)
         {
-            v *= m_backwardRunScale; 
+            v *= m_backwardRunScale;
         }
 
         //插值计算
@@ -213,6 +214,11 @@ public class CharacterController : MonoBehaviour
             m_animator.SetTrigger("Jump");
             audioManager.PlayJump();
         }
-    }   
+    }
+
+    public void Attack()
+    {
+        fly.SetTrigger("Attack");
+    }
 }
 
