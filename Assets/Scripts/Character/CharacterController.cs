@@ -9,7 +9,7 @@ public class CharacterController : MonoBehaviour
     //移动速度，转向速度及跳跃高度
     [SerializeField] private float m_moveSpeed = 2;
     [SerializeField] private float m_turnSpeed = 200;
-    [SerializeField] private float m_jumpForce = 4;
+    [SerializeField] private float m_jumpForce = 20;
 
     //动画及刚体组件
     private Animator m_animator = null;

@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 3036018251166381031}
   - component: {fileID: 3094561022949670483}
   - component: {fileID: 3159099374307919607}
-  - component: {fileID: 3126041254209234611}
   - component: {fileID: 722971724}
   m_Layer: 9
   m_Name: Lin
@@ -121,27 +120,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!95 &3126041254209234611
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3041134914894845795}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 45d480461bbdc704587e117329ce8e69, type: 3}
-  m_Controller: {fileID: 9100000, guid: 8b9a677f24793ba45bdc27a1dab7745e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &722971724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,7 +393,7 @@ Animator:
   m_GameObject: {fileID: 6259371558729816437}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 95c0c76d1a62c8144898577d31d7b11f, type: 2}
+  m_Controller: {fileID: 9100000, guid: f7d639f3a072e0842802398e5a907abb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
