@@ -36,7 +36,7 @@ public class PlayerDataManager : MonoBehaviour
         //获取组件
         uIGameInManager = GetComponent<UIGameInManager>();
         popViewM = GetComponent<PopViewManager>();
-        m_renderer = GameObject.Find("Lin/skin").GetComponent<SkinnedMeshRenderer>();
+        m_renderer = GameObject.Find("Lin/man_mp/Mesh3").GetComponent<SkinnedMeshRenderer>();
     }
 
     //保存数据
